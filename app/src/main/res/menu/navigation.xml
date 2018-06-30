@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/rotate"
+        android:icon="@drawable/ic_rotate_90_degrees_ccw"
+        android:title="Rotate" />
+
+    <item
+        android:id="@+id/crop"
+        android:icon="@drawable/ic_crop"
+        android:title="Crop" />
+
+    <item
+        android:id="@+id/resize"
+        android:icon="@drawable/ic_ac_unit"
+        android:title="Resize" />
+
+
+</menu>
