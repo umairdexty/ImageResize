@@ -57,12 +57,11 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        mImageView =findViewById(R.id.imageEdit);
+        mImageView = (ImageView) findViewById(R.id.imageEdit);
             Bundle extras = getIntent().getExtras();
-            Object data = extras.get("data");
+            String data = extras.getString("data");
 
-        Picasso.with(getBaseContext()).load(data.toString()).into(mImageView);
-
+      Picasso.with(getBaseContext()).load(data).into(mImageView);
 
 
         mTextMessage = (TextView) findViewById(R.id.message);

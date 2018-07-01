@@ -1,6 +1,5 @@
 package com.example.dexty.imageresize;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,7 +23,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -37,10 +35,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     LottieAnimationView selectImage;
     LottieAnimationView openCamera;
-    private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    public static final int PICK_IMAGE = 0;
+    Bitmap selectedPhoto;
+    int TAKE_PHOTO_CODE = 0;
+    public static int count = 1;
+
+    public static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +50,30 @@ public class MainActivity extends AppCompatActivity
 
         selectImage = findViewById(R.id.select);
         openCamera = findViewById(R.id.camera);
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
+        File newdir = new File(dir);
+        newdir.mkdirs();
 
 
         openCamera.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
+                // Here, the counter will be incremented each time, and the
+                // picture taken by camera will be stored as 1.jpg,2.jpg
+                // and likewise.
+                count += count++;
+                String file = dir + count + ".jpg";
+                File newfile = new File(file);
+                try {
+                    newfile.createNewFile();
+                } catch (IOException e) {
+                }
+
+                Uri outputFileUri = Uri.fromFile(newfile);
+
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
             }
         });
 
@@ -148,24 +164,13 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 
-            data.getData();
-            Intent i = new Intent(MainActivity.this, EditorActivity.class);
-            Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
-            startActivity(i);
-        }
-
-        /*else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-
-           // Toast.makeText(this, "This part of the code will run "+data.getData(), Toast.LENGTH_LONG).show();
-            data.getData();
-            Intent i = new Intent(MainActivity.this, EditorActivity.class);
-
-            i.putExtra("data", data.toString());
-            startActivity(i);
-        }*/
-
+         if (requestCode==PICK_IMAGE && resultCode==RESULT_OK){
+                data.getData();
+                Intent i = new Intent(MainActivity.this,EditorActivity.class);
+                i.putExtra("data",data.toString());
+                  startActivity(i);
+            }
     }
 
 
