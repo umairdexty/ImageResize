@@ -1,6 +1,10 @@
 package com.example.dexty.imageresize;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,15 +15,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class EditorActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private ImageView mImageView;
     private String imageStringpath;
+    Bitmap b;
     Uri imageUri;
     Bundle getExtras;
+    ExifInterface exif;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -45,16 +57,12 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-getExtras= getIntent().getExtras();
-if (getExtras!=null){
-    imageStringpath=getExtras.getString("data");
-    imageUri= Uri.parse(imageStringpath);
-
-
-    Toast.makeText(this, imageStringpath, Toast.LENGTH_SHORT).show();
-}
-
         mImageView = (ImageView) findViewById(R.id.imageEdit);
+            Bundle extras = getIntent().getExtras();
+            String data = extras.getString("data");
+
+        Picasso picasso = null;
+        picasso.load(data).into(mImageView);
 
 
 
@@ -63,4 +71,9 @@ if (getExtras!=null){
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-}
+
+
+
+
+    }
+

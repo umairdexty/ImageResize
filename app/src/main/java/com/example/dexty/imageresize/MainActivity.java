@@ -36,9 +36,10 @@ public class MainActivity extends AppCompatActivity
     LottieAnimationView selectImage;
     LottieAnimationView openCamera;
     Bitmap selectedPhoto;
-    int TAKE_PHOTO_CODE = 0;
-    public static final int PICK_IMAGE = 1;
+    int TAKE_PHOTO_CODE = 1;
     public static int count = 1;
+
+    public static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
                 startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
             }
         });
@@ -80,11 +80,14 @@ public class MainActivity extends AppCompatActivity
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent();
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+
+
             }
         });
 
@@ -162,19 +165,19 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
+
+            
+            Intent intent= new Intent(MainActivity.this,EditorActivity.class);
+            intent.putExtra("data",data.toString());
+            startActivity(intent);
             Toast.makeText(this, "Pic saved", Toast.LENGTH_LONG).show();
-        } else if (requestCode == PICK_IMAGE) {
-
-        data.getData();
-
-        Intent i = new Intent(MainActivity.this,EditorActivity.class);
-
-        i.putExtra("data",data.toString());
-        startActivity(i);
-
-            //Toast.makeText(this, "Image Picked " +data, Toast.LENGTH_SHORT).show();
         }
+            if (requestCode==PICK_IMAGE && resultCode==RESULT_OK){
 
+                Intent i = new Intent(MainActivity.this,EditorActivity.class);
+                i.putExtra("data",data.toString());
+                  startActivity(i);
+            }
     }
 
 

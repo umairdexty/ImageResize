@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -9,22 +9,22 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".75"
+
         android:id="@+id/imageEdit"
-        android:layout_alignParentTop="true"
         android:src="@drawable/ic_default_placeholder_750x415"
         />
     <TextView
         android:id="@+id/message"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/imageEdit"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Image.png"
+        android:text="@string/image_png"
         android:textSize="22sp"
-        android:layout_centerHorizontal="true"
         />
 
     <android.support.design.widget.BottomNavigationView
@@ -36,4 +36,4 @@
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
 
-</RelativeLayout>
+</LinearLayout>
