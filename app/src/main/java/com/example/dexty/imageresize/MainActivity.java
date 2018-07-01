@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     int TAKE_PHOTO_CODE = 0;
     public static final int PICK_IMAGE = 1;
     public static int count = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +61,11 @@ public class MainActivity extends AppCompatActivity
                 // picture taken by camera will be stored as 1.jpg,2.jpg
                 // and likewise.
                 count++;
-                String file = dir+count+".jpg";
+                String file = dir + count + ".jpg";
                 File newfile = new File(file);
                 try {
                     newfile.createNewFile();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                 }
 
                 Uri outputFileUri = Uri.fromFile(newfile);
@@ -86,9 +87,6 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
             }
         });
-
-
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -164,18 +162,17 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(this, "Pic saved", Toast.LENGTH_SHORT).show();
-        }
-    else if (requestCode == PICK_IMAGE){
+            Toast.makeText(this, "Pic saved", Toast.LENGTH_LONG).show();
+        } else if (requestCode == PICK_IMAGE) {
 
-            data.getData();
+        data.getData();
 
-            Intent intentPickedImage = new Intent(MainActivity.this,EditorActivity.class);
+        Intent i = new Intent(MainActivity.this,EditorActivity.class);
 
-            intentPickedImage.putExtra("data", data);
-            startActivity(intentPickedImage);
+        i.putExtra("data",data.toString());
+        startActivity(i);
 
-            Toast.makeText(this, "Image Picked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Image Picked " +data, Toast.LENGTH_SHORT).show();
         }
 
     }
