@@ -57,7 +57,7 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        mImageView = (ImageView) findViewById(R.id.imageEdit);
+        mImageView =  findViewById(R.id.imageEdit);
             Bundle extras = getIntent().getExtras();
             String data = extras.getString("data");
 
